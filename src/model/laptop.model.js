@@ -1,3 +1,4 @@
+var con=require('./../../app.js');
 const Laptop=function(Laptop){
     this.text=Laptop.text;
     this.title=Laptop.title;
@@ -11,7 +12,7 @@ const Laptop=function(Laptop){
     this.year_of_issue=Laptop.year_of_issue;
 };
 Laptop.findById=(laptopsid,result)=>{
-    sql.query("SELECT * FROM laptop WHERE id=?",laptopsid,(err,res)=>{
+    con.query("SELECT * FROM laptop WHERE id=?",laptopsid,(err,res)=>{
         if(err){
             console.log("error:",err);
             result(err,null);
@@ -26,7 +27,7 @@ Laptop.findById=(laptopsid,result)=>{
     });
 };
 Laptop.getAll=result=>{
-    sql.query("SELECT * FROM laptop",(err,res)=>{
+    con.query("SELECT * FROM laptop",(err,res)=>{
         if(err){
             console.log("error:",err);
             result(null,err);
@@ -36,7 +37,30 @@ Laptop.getAll=result=>{
         result(null,res);
     });
 };
-
+Laptop.create=function(newLaptop,result){
+    con.query("INSERT INTO laptop set ?",newLaptop,function(err,res){
+        if(err){
+            console.log("erro:",err);
+            result(err,null);
+        }
+        else
+        {
+            console.log(res.insertId);
+            result(null,res.insertId);        }
+    });
+};
+Laptop.findAll=function(result){
+    con,query("Select * from laptop",function(err,res){
+        if(err){
+            console.log("error:",err);
+            result(null,err);
+        }
+        else{
+            console.log('Laptop:',res);
+            result(null,res);
+        }
+    });
+};
 // Laptop.updateByid=(id,laptops,result)=>{
 //     sql.query("UPDATE laptop SET title=? WHERE id=?",
 //     [laptops.title,id],
