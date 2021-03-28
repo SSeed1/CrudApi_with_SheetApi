@@ -3,8 +3,9 @@ const express = require('express');
 const app=express();
 const mysql= require('mysql');
 const bodyPasrser=require('body-parser');
-//const Cryptr=require ('bcryptr');
-//const crypt=new Cryptr('12345678');
+const port=process.env.port || 5000;
+app.use(bodyPasrser.urlencoded({extended:true}));
+app.use(bodyPasrser.json);
 const con=mysql.createConnection({
     host:'localhost',
     user:'root',
@@ -18,12 +19,11 @@ con.connect(error=>{
         console.log("MYSQL Connected");
     }
 });
-app.use(bodyPasrser.json());
-app.use(bodyPasrser.urlencoded({extended:true}));
-app.get("/",(req,res)=>{
-    res.json({message:"Стартовая старница"});
-});
-
-app.listen(3000,()=>{
-    console.log("port 3000 listened");
+// app.get('/',(req,res)=>{
+//     res.send("Hello World");
+// });
+const laptoproutes=require('./src/routes/laptop.routes');
+app.use('/api/v1/laptops',laptoproutes);
+app.listen(port,()=>{
+    console.log(`Server is listening on port ${port}`);
 });
