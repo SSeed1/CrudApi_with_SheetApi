@@ -22,8 +22,18 @@ client.authorize(function(err,tokens){
         return;
     }else{
         console.log('Connected');
+        gsrun(client);
     }
 });
+async function gsrun(cl){
+    const gsapi= google.sheets({version:'v4',auth:cl});
+    const opt= {
+        spreadsheetId:'1HbE65BzI7eP1I_jqoMEA8j140Jks_8qC1OscrBLmaIc',
+        range:'A1:J4'
+    };
+    let data  = await gsapi.spreadsheets.values.get(opt);
+    console.log(data.data.values);
+}
 const con=mysql.createConnection({
     host:'localhost',
     user:'root',
