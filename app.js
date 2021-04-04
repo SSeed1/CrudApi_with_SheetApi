@@ -32,8 +32,21 @@ async function gsrun(cl){
         range:'A1:J4'
     };
     let data  = await gsapi.spreadsheets.values.get(opt);
-    console.log(data.data.values);
+    let dataArray=data.data.values;
+    let newDataArray=dataArray.map(function(r){
+        console.log(`${r[0]}||${r[1]}||${r[2]}||${r[3]}||${r[4]}||${r[5]}||${r[6]}||${r[7]}||${r[8]}||${r[9]}||${r[10]}`);
+    });
+
+    // const updateOptions= {
+    //     spreadsheetId:'1HbE65BzI7eP1I_jqoMEA8j140Jks_8qC1OscrBLmaIc',
+    //     range:'A1:J4',
+    //     valueInputOption:'USER_ENTERED',
+    //     response:{values:newDataArray}
+    // };
+    // let responsed= await gsapi.spreadsheets.values.update(updateOptions);
+    // console.log(responsed);
 }
+
 const con=mysql.createConnection({
     host:'localhost',
     user:'root',
